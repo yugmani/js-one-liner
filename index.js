@@ -47,3 +47,27 @@ const getLargestValue = (arr) =>
   arr.reduce((largest, num) => Math.max(largest, num));
 
 console.log(getLargestValue(array1)); //17
+
+// 3. Shuffle an Array
+// **************************************
+
+const shuffleArray = (arr) => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const index = Math.floor(Math.random() * (i + 1));
+    let temp = arr[i];
+    arr[i] = arr[index];
+    arr[index] = temp;
+  }
+
+  return arr;
+};
+
+const array2 = [1, 2, 3, 4, 5];
+console.log(shuffleArray(array2));
+// [3, 2, 5, 4, 1]
+
+//Alternative
+const shuffleArrayBySort = (arr) => arr.sort(() => Math.random() - 0.5);
+
+console.log(shuffleArrayBySort(array2));
+// [3, 2, 5, 4, 1]
