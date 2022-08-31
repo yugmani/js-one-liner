@@ -71,3 +71,100 @@ const shuffleArrayBySort = (arr) => arr.sort(() => Math.random() - 0.5);
 
 console.log(shuffleArrayBySort(array2));
 // [3, 2, 5, 4, 1]
+
+// 4. Group an Array By an Object Property
+const groupByProperty = (arr, groupFn) => {
+  const grouped = {};
+
+  for (const obj of arr) {
+    const groupName = groupFn(obj);
+
+    if (!grouped[groupName]) {
+      grouped[groupName] = [];
+    }
+
+    grouped[groupName].push(obj);
+  }
+
+  return grouped;
+};
+
+const people = [
+  { name: 'Matt' },
+  { name: 'Sam' },
+  { name: 'John' },
+  { name: 'Mac' },
+];
+
+const utility = (person) => person.name.length;
+
+const groupByLength = groupByProperty(people, utility);
+
+console.log(groupByLength);
+//{3: Array[2], 4: Array[2]}
+/*
+{
+  '3': [ { name: 'Sam' }, { name: 'Mac' } ],
+  '4': [ { name: 'Matt' }, { name: 'John' } ]
+}
+ */
+
+//Alternative
+
+const groupBy = (arr, groupFn) => {
+  return arr.reduce(
+    (grouped, obj) => ({
+      ...grouped,
+      [groupFn(obj)]: [...(grouped[groupFn(obj)] || []), obj],
+    }),
+    {}
+  );
+};
+
+console.log(groupBy(people, (person) => person.name.length));
+// {3: Array[2], 4: Array[2]}
+
+//Group by Age
+const users = [
+  { name: 'Matt', age: 63 },
+  { name: 'Sam', age: 29 },
+  { name: 'John', age: 54 },
+  { name: 'Mac', age: 17 },
+];
+
+const groupByAge = (arr, groupFn) => {
+  const grouped = {};
+  let groupName = '';
+
+  for (const obj of arr) {
+    let name = groupFn(obj);
+    if (name) {
+      groupName = 'Old';
+    } else {
+      groupName = 'Young';
+    }
+
+    if (!grouped[groupName]) {
+      grouped[groupName] = [];
+    }
+
+    grouped[groupName].push(obj);
+  }
+
+  return grouped;
+};
+
+const ageBy = (boy) => boy.age > 50;
+
+console.log(groupByAge(users, ageBy));
+//{Old: Array[2], Young: Array[2]}
+{
+  Old: [
+    { name: 'Matt', age: 63 },
+    { name: 'John', age: 54 },
+  ];
+  Young: [
+    { name: 'Sam', age: 29 },
+    { name: 'Mac', age: 17 },
+  ];
+}
